@@ -28,7 +28,6 @@ trait ExecuteQueries {
 }
 
 impl ExecuteQueries for Connection {
-    // TODO: может, возвращать список сервисов?
     fn get_services(&self) -> HashMap<i32, String> {
         let statement = &mut self.prepare("SELECT id, service_name FROM services").expect("Failed to prepare query");
         let service_iter = statement.query_map([], |row| {
@@ -43,7 +42,6 @@ impl ExecuteQueries for Connection {
         println!(":: Выберите сервис:");
         for s in service_iter {
             let data = s.unwrap();
-            // println!("Service: {:?}", s.unwrap());
             println!("{:?}. {:?}", data.id, data.service_name);
             service_names.insert(data.id, data.service_name);
         }
